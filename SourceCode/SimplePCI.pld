@@ -2,7 +2,7 @@ Name     Decodificador_PCI ;
 PartNo   001 ;
 Date     20/05/2024 ;
 Revision 01 ;
-Designer Gemini_Partner ;
+Designer Partner ;
 Company  Custom_Project ;
 Assembly GAL1_Logic ;
 Location U1 ;
