@@ -1,0 +1,44 @@
+Name     Decodificador_PCI ;
+PartNo   001 ;
+Date     20/05/2024 ;
+Revision 01 ;
+Designer Gemini_Partner ;
+Company  Custom_Project ;
+Assembly GAL1_Logic ;
+Location U1 ;
+Device   G22V10 ;
+
+/* *************** ENTRADAS ***************** */
+PIN 1  = CLK ;       /* Reloj PCI 33MHz (Opcional para decodificaci�n as�ncrona) */
+PIN 2  = FRAME ;     /* Se�al de inicio de ciclo PCI (Activa en Bajo) */
+PIN 3  = CBE0 ;      /* Comando Bit 0 (Para distinguir I/O de Memoria) */
+PIN 4  = AD9 ;       /* Bit 9 de direcci�n */
+PIN 5  = AD8 ;       /* Bit 8 de direcci�n */
+PIN 6  = AD7 ;       /* Bits 7 al 2 deben ser 0 para 0x300 */
+PIN 7  = AD6 ;
+PIN 8  = AD5 ;
+PIN 9  = AD4 ;
+PIN 10 = AD3 ;
+PIN 11 = AD2 ;
+
+/* *************** SALIDAS ***************** */
+PIN 23 = MY_DEV ;    /* Chip Select interno (Activo en Bajo) */
+PIN 22 = DEVSEL_OUT; /* Hacia el bus PCI para reclamar la transacci�n */
+
+/* *************** L�GICA ****************** */
+
+/* 1. Definimos la direcci�n 0x300: 
+   0x300 en binario (bits 9-2) es: 11 0000 00 */
+FIELD addr = [AD9, AD8, AD7, AD6, AD5, AD4, AD3, AD2];
+address_match = addr:[300..303]; /* Rango de 4 bytes para alineaci�n */
+
+/* 2. Condici�n de activaci�n:
+   El ciclo es v�lido cuando FRAME es bajo Y la direcci�n coincide 
+   Y CBE0 es bajo (simplificaci�n para ciclos de I/O comunes) */
+   
+MY_DEV = !( !FRAME & address_match & !CBE0 );
+
+/* 3. Respuesta al Bus (DEVSEL#):
+   Es vital decirle al procesador que alguien escuch�. 
+   Por ahora lo haremos de forma combinacional inmediata. */
+DEVSEL_OUT = MY_DEV; 

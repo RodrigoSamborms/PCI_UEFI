@@ -5,3 +5,7 @@ Vista preliminar de la tarjeta/adapter PCI usada para el GPIO con lógica GAL22V
 ![Tarjeta PCI](imagenes/PCI_Card.jpeg)
 
 Consulta el resumen técnico en [RESUMEN_PROYECTO.md](RESUMEN_PROYECTO.md).
+
+## Archivos .PLD dentro de la carpeta SourceCode
+
+## VS Cupl extensión para VS Code
